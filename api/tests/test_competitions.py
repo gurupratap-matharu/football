@@ -23,4 +23,15 @@ class CompetitionAPITests(APITestCase):
         response = self.client.get(reverse("competition_list"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Competition.objects.count(), 1)
-        self.assertContains(response, self.competition)
+        self.assertContains(response, self.competition)  # type:ignore
+
+    def test_api_detail_view(self):
+        response = self.client.get(
+            reverse(
+                "competition_detail", kwargs={"pk": self.competition.id}  # type:ignore
+            ),
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Competition.objects.count(), 1)
+        self.assertContains(response, "Premier League")
