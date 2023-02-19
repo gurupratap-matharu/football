@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "football api"
+version = "0.1.0"
+description = "Get updates about latest things happening in the world of football via a friendly, fast and easy to use API"
+authors = ["Gurupratap Matharu <gurupratap.matharu@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^4.1.7"
+djangorestframework = "^3.14.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
