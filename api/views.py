@@ -1,7 +1,7 @@
 import logging
 
 from django.core.management import call_command
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 
@@ -16,7 +16,7 @@ def import_league(request, code=None):
     """Loads league data into the database"""
 
     call_command("load_league_data", league=code)
-    return HttpResponse("All ok")
+    return JsonResponse({"status": "All data imported!"})
 
 
 class CompetitionAPIView(generics.ListAPIView):
