@@ -1,5 +1,7 @@
 from django.urls import path
 
-from . import views
+from .views import CompetitionAPIView
 
-urlpatterns = []
+urlpatterns = [
+    path("", CompetitionAPIView.as_view(), name="competition_list"),
+]
