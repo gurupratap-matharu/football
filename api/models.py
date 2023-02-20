@@ -8,6 +8,10 @@ class Area(models.Model):
     """
 
     name = models.CharField(max_length=250)
+    code = models.CharField(max_length=10, unique=True)
+
+    class Meta:
+        ordering = ("name",)
 
     def __str__(self):
         return f"{self.name}"
@@ -20,11 +24,16 @@ class Competition(models.Model):
     """
 
     name = models.CharField(max_length=250)
-    code = models.CharField(max_length=10)
+    code = models.CharField(max_length=10, unique=True)
     area = models.ForeignKey(
         "Area", on_delete=models.CASCADE, related_name="competitions"
     )
     teams = models.ManyToManyField(to="Team", related_name="running_competitions")
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ("-created",)
 
     def __str__(self):
         return f"{self.name}"
@@ -37,11 +46,14 @@ class Team(models.Model):
     """
 
     name = models.CharField(max_length=250)
-    tla = models.CharField(max_length=20)
+    tla = models.CharField(max_length=20, unique=True)
     short_name = models.CharField(max_length=100)
     address = models.CharField(max_length=250)
     area = models.ForeignKey("Area", on_delete=models.CASCADE, related_name="teams")
     squad = models.ManyToManyField(to="Player", related_name="teams")
+
+    class Meta:
+        ordering = ("name",)
 
     def __str__(self):
         return f"{self.name}"
@@ -52,10 +64,13 @@ class Player(models.Model):
     A physical sports person who plays the match.
     """
 
-    name = models.CharField(max_length=250)
+    name = models.CharField(max_length=250, unique=True)
     position = models.CharField(max_length=200)
     date_of_birth = models.CharField(max_length=20)
     nationality = models.CharField(max_length=200)
+
+    class Meta:
+        ordering = ("name",)
 
     def __str__(self):
         return f"{self.name}"
@@ -66,7 +81,7 @@ class Coach(models.Model):
     A coach for a team.
     """
 
-    name = models.CharField(max_length=250)
+    name = models.CharField(max_length=250, unique=True)
     date_of_birth = models.CharField(max_length=20)
     nationality = models.CharField(max_length=200)
     team = models.ForeignKey("Team", on_delete=models.CASCADE, related_name="coach")
