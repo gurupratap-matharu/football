@@ -47,8 +47,8 @@ class Team(models.Model):
 
     name = models.CharField(max_length=250)
     tla = models.CharField(max_length=20, unique=True)
-    short_name = models.CharField(max_length=100)
-    address = models.CharField(max_length=250)
+    short_name = models.CharField(max_length=100, blank=True)
+    address = models.CharField(max_length=250, blank=True)
     area = models.ForeignKey("Area", on_delete=models.CASCADE, related_name="teams")
     squad = models.ManyToManyField(to="Player", related_name="teams")
 
@@ -65,9 +65,9 @@ class Player(models.Model):
     """
 
     name = models.CharField(max_length=250, unique=True)
-    position = models.CharField(max_length=200)
-    date_of_birth = models.CharField(max_length=20)
-    nationality = models.CharField(max_length=200)
+    position = models.CharField(max_length=200, blank=True)
+    date_of_birth = models.CharField(max_length=20, blank=True)
+    nationality = models.CharField(max_length=200, blank=True)
 
     class Meta:
         ordering = ("name",)
@@ -82,8 +82,8 @@ class Coach(models.Model):
     """
 
     name = models.CharField(max_length=250, unique=True)
-    date_of_birth = models.CharField(max_length=20)
-    nationality = models.CharField(max_length=200)
+    date_of_birth = models.CharField(max_length=20, blank=True)
+    nationality = models.CharField(max_length=200, blank=True)
     team = models.ForeignKey("Team", on_delete=models.CASCADE, related_name="coach")
 
     def __str__(self):
