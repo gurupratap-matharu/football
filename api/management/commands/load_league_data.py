@@ -12,6 +12,8 @@ with fresh data fetched from the API
 
 from django.core.management.base import BaseCommand
 
+from api.services import APIService
+
 
 class Command(BaseCommand):
     """
@@ -39,6 +41,8 @@ class Command(BaseCommand):
 
         self.success("League: %s" % league)
         self.success("Fetching data from api 📡...")
+
+        response = APIService(league=league).run()
 
         self.stdout.write(
             f"""
