@@ -177,3 +177,7 @@ LOGGING = {
         },
     },
 }
+
+
+FOOTBALL_API_BASE_URL = "https://api.football-data.org/v4/"
+FOOTBALL_API_TOKEN = os.getenv("FOOTBALL_API_TOKEN")
