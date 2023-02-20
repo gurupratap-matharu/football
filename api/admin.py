@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Area, Competition, Player, Team
+from .models import Area, Coach, Competition, Player, Team
 
 
 @admin.register(Competition)
@@ -21,3 +21,8 @@ class TeamAdmin(admin.ModelAdmin):
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
     list_display = ("name", "position", "date_of_birth", "nationality")
+
+
+@admin.register(Coach)
+class CoachAdmin(admin.ModelAdmin):
+    list_display = ("name", "date_of_birth", "nationality")
