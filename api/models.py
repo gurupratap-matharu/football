@@ -59,3 +59,17 @@ class Player(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Coach(models.Model):
+    """
+    A coach for a team.
+    """
+
+    name = models.CharField(max_length=250)
+    date_of_birth = models.CharField(max_length=20)
+    nationality = models.CharField(max_length=200)
+    team = models.ForeignKey("Team", on_delete=models.CASCADE, related_name="coach")
+
+    def __str__(self):
+        return f"{self.name}"
