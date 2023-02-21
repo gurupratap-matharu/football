@@ -2,7 +2,8 @@ import logging
 
 from django.core.management import call_command
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 
@@ -87,3 +88,12 @@ class TeamAPIView(generics.RetrieveAPIView):
                 return self.team_squad_serializer_class
 
         return super().get_serializer_class()
+
+
+def team_players_detail(request, tla=None):
+    url = reverse("team_detail", args=[tla]) + "?players=True"
+
+    logger.info("team_players_detail: tla:%s" % tla)
+    logger.info("redirecting to: %s" % url)
+
+    return redirect(url)

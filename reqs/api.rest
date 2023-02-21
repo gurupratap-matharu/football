@@ -20,7 +20,7 @@ GET http://localhost:8000/api/v1/players/PLA/ HTTP/1.1
 
 
 ### Players filtered by league and team
-GET http://localhost:8000/api/v1/players/PL/BOU/ HTTP/1.1
+GET http://localhost:8000/api/v1/players/PL/ARS/ HTTP/1.1
 
 
 ### Teams Detail view
@@ -34,3 +34,6 @@ GET http://localhost:8000/api/v1/teams/ars/ HTTP/1.1
 
 ### Teams Detail view show players as well
 GET http://localhost:8000/api/v1/teams/ARS/?players=true HTTP/1.1
+
+### Teams Detail view show players as well alternative endpoint
+GET http://localhost:8000/api/v1/teams/ARS/players/ HTTP/1.1

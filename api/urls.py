@@ -6,6 +6,7 @@ from .views import (
     PlayersAPIView,
     TeamAPIView,
     import_league,
+    team_players_detail,
 )
 
 urlpatterns = [
@@ -19,4 +20,5 @@ urlpatterns = [
         name="players_list_league_team",
     ),
     path("teams/<str:tla>/", TeamAPIView.as_view(), name="team_detail"),
+    path("teams/<str:tla>/players/", team_players_detail, name="team_players_detail"),
 ]
