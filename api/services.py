@@ -30,17 +30,20 @@ class APIService:
         url = self.URI + f"competitions/{self.league}/teams"
         logger.info("hitting (🚀) %s..." % url)
 
-        with open("api/samples/teams.json", "r") as f:
-            response = json.load(f)
+        with open("api/samples/competitions.json", "r") as f:
+            competition_data = json.load(f)
 
-        competition_data = response.get("competition")
-        teams_data = response.get("teams")
+        with open("api/samples/teams.json", "r") as f:
+            response_teams = json.load(f)
+
+        teams_data = response_teams.get("teams")
 
         teams = []
         for data in teams_data:
             team = self.create_team(data=data)
-            _ = self.create_coach(coach=data["coach"], team=team)
+            coach = self.create_coach(coach=data["coach"], team=team)
             players = self.create_players(squad=data["squad"])
+
             team.squad.add(*players)
             teams.append(team)
 
@@ -62,8 +65,11 @@ class APIService:
         """
         Get or create a league in the database.
         """
-
-        c, _ = Competition.objects.get_or_create(name=data["name"], code=data["code"])
+        c, _ = Competition.objects.get_or_create(
+            name=data["name"],
+            code=data["code"],
+            area=self.create_area(area=data["area"]),
+        )
 
         logger.info("created league(🥅):%s" % c)
 
