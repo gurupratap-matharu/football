@@ -30,5 +30,7 @@ GET http://localhost:8000/api/v1/teams/ARS/ HTTP/1.1
 ### Teams Detail view is case insensitive
 GET http://localhost:8000/api/v1/teams/ars/ HTTP/1.1
 
+
+
 ### Teams Detail view show players as well
 GET http://localhost:8000/api/v1/teams/ARS/?players=true HTTP/1.1
