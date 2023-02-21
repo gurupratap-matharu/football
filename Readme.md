@@ -2,17 +2,15 @@
 
 <img src="https://github.com/gurupratap-matharu/midware/blob/master/staticfiles/img/hero.jpg" alt="drawing" width="1920"/>
 
-### Development setup 🛠
+## Development setup 🛠
 
 Steps to locally setup development after cloning the project.
 
-`docker-compose up -d --build`
-or simple
-`make build` ;)
+`make build`
 
 Make sure you rename .env.example to .env and declare the environment variables in root folder for docker to pickup!
 
-### Browsable API
+## Browsable API
 
 The application features a full featured browsable api for quick verification.
 Once you have the local server running simply head on to
@@ -65,7 +63,7 @@ GET http://localhost:8000/api/v1/teams/ARS/players/
 
 ```
 
-### Admin Interface
+## Admin Interface
 
 For convenience we have access to an admin interface provided by django.
 
@@ -80,12 +78,8 @@ make superuser
 
 Provide a username, password, email and then you can access admin at http://localhost:8000/admin/
 
-The interface should look like this
-<img src="https://github.com/gurupratap-matharu/midware/blob/master/staticfiles/img/admin.png" alt="drawing" width="1920"/>
+## Features ✨
 
-### Features ✨
-
-- Development with docker for easy setup and scaling on cloud
 - Uses logging module quite frequently for easy debugging
 - Unit tests to verify functionality as per requirements
 - Versioning of api possible easily. for eg: `/api/v1/`
