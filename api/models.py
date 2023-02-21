@@ -28,7 +28,9 @@ class Competition(models.Model):
     area = models.ForeignKey(
         "Area", on_delete=models.CASCADE, null=True, related_name="competitions"
     )
-    teams = models.ManyToManyField(to="Team", related_name="running_competitions")
+    teams = models.ManyToManyField(
+        to="Team", blank=True, related_name="running_competitions"
+    )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -50,7 +52,9 @@ class Team(models.Model):
     short_name = models.CharField(max_length=100, blank=True)
     address = models.CharField(max_length=250, blank=True)
     area = models.ForeignKey("Area", on_delete=models.CASCADE, related_name="teams")
-    squad = models.ManyToManyField(to="Player", related_name="current_teams")
+    squad = models.ManyToManyField(
+        to="Player", blank=True, related_name="current_teams"
+    )
 
     class Meta:
         ordering = ("name",)
