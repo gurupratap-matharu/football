@@ -1,4 +1,5 @@
 import logging
+import pdb
 
 from django.core.management import call_command
 from django.http import JsonResponse
@@ -7,7 +8,12 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 
 from .models import Competition, Player, Team
-from .serializers import CompetitionSerializer, PlayerSerializer, TeamSerializer
+from .serializers import (
+    CompetitionSerializer,
+    PlayerSerializer,
+    TeamSerializer,
+    TeamSquadSerializer,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -63,9 +69,22 @@ class PlayersAPIView(generics.ListAPIView):
 class TeamAPIView(generics.RetrieveAPIView):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
-    # lookup_field = "tla"
+    team_squad_serializer_class = TeamSquadSerializer
 
     def get_object(self):
         queryset = self.get_queryset()
         tla = self.kwargs["tla"]
         return get_object_or_404(queryset, tla__iexact=tla)
+
+    def get_serializer_class(self):
+        """
+        Determins which serializer to user `Team` or `TeamWithSquad`
+        """
+
+        show_players = self.request.query_params.get("players")  # type:ignore
+
+        if show_players:
+            if hasattr(self, "team_squad_serializer_class"):
+                return self.team_squad_serializer_class
+
+        return super().get_serializer_class()

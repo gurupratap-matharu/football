@@ -9,13 +9,21 @@ class CompetitionSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("name", "code")
 
 
-class PlayerSerializer(serializers.HyperlinkedModelSerializer):
+class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
         fields = ("name", "position", "date_of_birth", "nationality")
 
 
+class TeamSquadSerializer(serializers.ModelSerializer):
+    squad = PlayerSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Team
+        fields = ("id", "tla", "short_name", "name", "address", "squad")
+
+
 class TeamSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Team
-        fields = ("name", "tla", "short_name", "address")
+        fields = ("id", "tla", "short_name", "name", "address")
