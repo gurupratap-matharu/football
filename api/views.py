@@ -2,6 +2,7 @@ import logging
 
 from django.core.management import call_command
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 
@@ -30,10 +31,41 @@ class CompetitionDetailView(generics.RetrieveAPIView):
 
 
 class PlayersAPIView(generics.ListAPIView):
-    queryset = Player.objects.all()
     serializer_class = PlayerSerializer
 
+    def get_queryset(self):
+        """
+        Filter the players queryset for a league (or team as well but optional)as
+        determined by the league / tla portion of the URL.
 
-class TeamAPIView(generics.ListAPIView):
+        Note:
+            - to filter by league we use the league code in the URL
+            - to filter by team we use its TLA code in the URL
+        """
+
+        league_code = self.kwargs.get("league")
+        tla = self.kwargs.get("tla")
+
+        league = get_object_or_404(Competition, code__icontains=league_code)
+
+        logger.info("filtering players for league:%s" % league)
+
+        teams = league.teams.all()
+
+        if tla:
+            _ = get_object_or_404(Team, tla__iexact=tla)
+            teams = teams.filter(tla__iexact=tla)
+            logger.info("filtering players for teams(👫):%s" % teams)
+
+        return Player.objects.filter(current_teams__in=teams)
+
+
+class TeamAPIView(generics.RetrieveAPIView):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
+    # lookup_field = "tla"
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        tla = self.kwargs["tla"]
+        return get_object_or_404(queryset, tla__iexact=tla)
