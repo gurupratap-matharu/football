@@ -23,3 +23,16 @@ ipython = "^8.10.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+skip = ["docs", "migrations"]
+known_django = "django"
+sections = "FUTURE,STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+
+[tool.black]
+exclude = '''
+/(
+  | migrations
+)/
+'''
