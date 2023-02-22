@@ -1,0 +1,2 @@
+### Import League
+POST http://localhost:8000/api/v1/import-league/BSA/ HTTP/1.1
