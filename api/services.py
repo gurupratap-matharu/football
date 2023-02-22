@@ -39,7 +39,7 @@ class APIService:
                 # Squad found in api so build them and create m2m link
                 players = self.create_players(squad=data["squad"])
                 team.squad.add(*players)
-                
+
             else:
                 # No squad so build the coach even if null
                 _ = self.create_coach(coach=data["coach"], team=team)
