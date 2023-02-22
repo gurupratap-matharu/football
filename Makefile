@@ -5,10 +5,9 @@ help:
 	@echo "Available commands"
 	@echo " - ci               : lints, migrations, tests, coverage"
 	@echo " - install          : installs production requirements"
-	@echo " - install-dev      : installs development requirements"
 	@echo " - isort            : sorts all imports of the project"
 	@echo " - lint             : lints the codebase"
-	@echo " - run              : runs the development server"
+	@echo " - runserver        : runs the development server"
 	@echo " - shellplus        : runs the development shell"
 
 collectstatic:
@@ -24,14 +23,8 @@ check-deploy:
 	python manage.py check --deploy
 
 install:
-	poetry install
+	pip install -r requirements.txt
 
-update:
-	poetry update
-	
-setup_test_data:
-	python manage.py setup_test_data
-	
 shellplus:
 	python manage.py shell_plus
 
@@ -52,17 +45,17 @@ migrations-check:
 
 runserver:
 	python manage.py runserver
-	
+
 build: install makemigrations migrate runserver
 
 isort:
-	poetry run isort . --check-only --profile black
+	isort . --check-only --profile black
 
 format:
-	poetry run black . --check 
+	black . --check 
 
 lint: format
-	poetry run flake8 .
+	flake8 .
 
 test: migrations-check
 	python -Wa manage.py test
@@ -70,3 +63,6 @@ test: migrations-check
 ci: lint
 	coverage run --source='.' manage.py test
 	coverage html
+
+superuser:
+	python manage.py createsuperuser
