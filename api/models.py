@@ -48,7 +48,7 @@ class Team(models.Model):
     """
 
     name = models.CharField(max_length=250, blank=True, null=True)
-    tla = models.CharField(max_length=20, unique=True, blank=True, null=True)
+    tla = models.CharField(max_length=20, blank=True, null=True)
     short_name = models.CharField(max_length=100, blank=True, null=True)
     address = models.CharField(max_length=250, blank=True, null=True)
     area = models.ForeignKey(
