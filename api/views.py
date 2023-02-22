@@ -1,16 +1,19 @@
 import logging
+import pdb
 
 from django.core.management import call_command
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+
 from rest_framework import generics
 
 from .models import Competition, Player, Team
 from .serializers import (
     CompetitionSerializer,
     PlayerSerializer,
+    TeamCoachSerializer,
     TeamSerializer,
     TeamSquadSerializer,
 )
@@ -70,6 +73,7 @@ class TeamAPIView(generics.RetrieveAPIView):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
     team_squad_serializer_class = TeamSquadSerializer
+    team_coach_serializer_class = TeamCoachSerializer
 
     def get_object(self):
         queryset = self.get_queryset()
@@ -82,10 +86,19 @@ class TeamAPIView(generics.RetrieveAPIView):
         """
 
         show_players = self.request.query_params.get("players")  # type:ignore
+        team = self.get_object()
 
-        if show_players:
+        if show_players and team.squad.exists():
+            logger.info("team:%s has a squad so showing it..." % team)
+
             if hasattr(self, "team_squad_serializer_class"):
                 return self.team_squad_serializer_class
+
+        else:
+            logger.info("team:%s has no squad so showing only coach..." % team)
+
+            if hasattr(self, "team_coach_serializer_class"):
+                return self.team_coach_serializer_class
 
         return super().get_serializer_class()
 
