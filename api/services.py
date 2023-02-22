@@ -1,11 +1,10 @@
 """Script that holds all the business logic needed to talk to the football API"""
 
-import json
 import logging
-import pdb
+
+from django.conf import settings
 
 import requests
-from django.conf import settings
 
 from .models import Area, Coach, Competition, Player, Team
 
@@ -27,21 +26,13 @@ class APIService:
     def run(self):
         logger.info("running api service 🚨...")
 
-        url = self.URI + f"competitions/{self.league}/teams"
-        logger.info("hitting (🚀) %s..." % url)
-
-        with open("api/samples/competitions.json", "r") as f:
-            competition_data = json.load(f)
-
-        with open("api/samples/teams.json", "r") as f:
-            response_teams = json.load(f)
-
-        teams_data = response_teams.get("teams")
+        competition_data = self.get_competition_from_api().get("competitions")
+        teams_data = self.get_teams_from_api().get("teams")
 
         teams = []
         for data in teams_data:
             team = self.create_team(data=data)
-            coach = self.create_coach(coach=data["coach"], team=team)
+            _ = self.create_coach(coach=data["coach"], team=team)
             players = self.create_players(squad=data["squad"])
 
             team.squad.add(*players)
@@ -49,7 +40,48 @@ class APIService:
 
         competition = self.create_competition(data=competition_data)
         competition.teams.add(*teams)
-        # response = requests.get(self.URI, headers=self.HEADERS)
+
+    def hit_api(self, url):
+        """
+        Helper method to hit the football API at any desired endpoint.
+        """
+
+        logger.info("hitting (🚀) %s..." % url)
+
+        try:
+            response = requests.get(url=url, headers=self.HEADERS)
+            response.raise_for_status()
+
+        except requests.exceptions.HTTPError as err:
+            raise SystemExit(err)
+
+        except requests.exceptions.Timeout as e:
+            raise Exception("The url timed out", e)
+
+        except requests.exceptions.TooManyRedirects as e:
+            raise Exception("The url led to too many redirects!", e)
+
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+
+        else:
+            return response.json()
+
+    def get_competition_from_api(self):
+        """
+        Hits the football API at the competition endpoint and parses the json data.
+        """
+
+        url = self.URI + "competitions"
+        return self.hit_api(url=url)
+
+    def get_teams_from_api(self):
+        """
+        Hits the football API at the teams endpoint and parses the json data.
+        """
+
+        url = self.URI + f"competitions/{self.league}/teams"
+        return self.hit_api(url=url)
 
     def create_area(self, area):
         """
