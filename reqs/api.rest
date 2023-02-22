@@ -9,6 +9,9 @@ POST http://localhost:8000/api/v1/import-league/AU/ HTTP/1.1
 ### Players filtered by league
 GET http://localhost:8000/api/v1/players/PL/ HTTP/1.1
 
+### Players filtered by league
+GET http://localhost:8000/api/v1/players/BSA/ HTTP/1.1
+
 
 ### Players filtered by league case insensitive
 GET http://localhost:8000/api/v1/players/pl/ HTTP/1.1
@@ -27,6 +30,10 @@ GET http://localhost:8000/api/v1/players/PL/ARS/ HTTP/1.1
 GET http://localhost:8000/api/v1/teams/ARS/ HTTP/1.1
 
 
+### Teams Detail view
+GET http://localhost:8000/api/v1/teams/BOT/ HTTP/1.1
+
+
 ### Teams Detail view is case insensitive
 GET http://localhost:8000/api/v1/teams/ars/ HTTP/1.1
 
@@ -34,6 +41,9 @@ GET http://localhost:8000/api/v1/teams/ars/ HTTP/1.1
 
 ### Teams Detail view show players as well
 GET http://localhost:8000/api/v1/teams/ARS/?players=true HTTP/1.1
+
+### Teams Detail view show players as well
+GET http://localhost:8000/api/v1/teams/BOT/?players=true HTTP/1.1
 
 ### Teams Detail view show players as well alternative endpoint
 GET http://localhost:8000/api/v1/teams/ARS/players/ HTTP/1.1

@@ -1,16 +1,21 @@
+### Competition List
+GET https://api.football-data.org/v4/competitions HTTP/1.1
+X-Auth-Token: 3e9d246e26e94c7cb2e23a5be80d50dd
+
+
 ### Competition Detail
-GET https://api.football-data.org/v4/competitions/PL HTTP/1.1
+GET https://api.football-data.org/v4/competitions/BSA HTTP/1.1
 X-Auth-Token: 3e9d246e26e94c7cb2e23a5be80d50dd
 
 
 
 ### Standings
 
-GET https://api.football-data.org/v4/competitions/PL/standings HTTP/1.1
+GET https://api.football-data.org/v4/competitions/BSA/standings HTTP/1.1
 X-Auth-Token: 3e9d246e26e94c7cb2e23a5be80d50dd
 
 
 ### Teamss
 
-GET https://api.football-data.org/v4/competitions/PL/teams HTTP/1.1
+GET https://api.football-data.org/v4/competitions/BSA/teams HTTP/1.1
 X-Auth-Token: 3e9d246e26e94c7cb2e23a5be80d50dd
