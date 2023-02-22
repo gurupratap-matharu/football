@@ -26,16 +26,24 @@ class APIService:
     def run(self):
         logger.info("running api service 🚨...")
 
-        competition_data = self.get_competition_from_api().get("competitions")
+        competition_data = self.get_competition_from_api()
         teams_data = self.get_teams_from_api().get("teams")
 
         teams = []
         for data in teams_data:
             team = self.create_team(data=data)
-            _ = self.create_coach(coach=data["coach"], team=team)
-            players = self.create_players(squad=data["squad"])
 
-            team.squad.add(*players)
+            squad = data["squad"]
+
+            if squad:
+                # Squad found in api so build them and create m2m link
+                players = self.create_players(squad=data["squad"])
+                team.squad.add(*players)
+                
+            else:
+                # No squad so build the coach even if null
+                _ = self.create_coach(coach=data["coach"], team=team)
+
             teams.append(team)
 
         competition = self.create_competition(data=competition_data)
@@ -72,7 +80,7 @@ class APIService:
         Hits the football API at the competition endpoint and parses the json data.
         """
 
-        url = self.URI + "competitions"
+        url = self.URI + f"competitions/{self.league}"
         return self.hit_api(url=url)
 
     def get_teams_from_api(self):
@@ -88,8 +96,12 @@ class APIService:
         Get or create an area.
         """
 
-        a, _ = Area.objects.get_or_create(name=area["name"], code=area["code"])
-        logger.info("created area(🌍): %s" % a)
+        a, created = Area.objects.get_or_create(name=area["name"], code=area["code"])
+
+        if created:
+            logger.info("created area(🌍): %s" % a)
+        else:
+            logger.info("already exists area(🌍): %s" % a)
 
         return a
 
@@ -97,13 +109,16 @@ class APIService:
         """
         Get or create a league in the database.
         """
-        c, _ = Competition.objects.get_or_create(
+        c, created = Competition.objects.get_or_create(
             name=data["name"],
             code=data["code"],
             area=self.create_area(area=data["area"]),
         )
 
-        logger.info("created league(🥅):%s" % c)
+        if created:
+            logger.info("created league(🥅):%s" % c)
+        else:
+            logger.info("already exists league(🥅):%s" % c)
 
         return c
 
@@ -112,7 +127,7 @@ class APIService:
         Get or create a single team in the database.
         """
 
-        team, _ = Team.objects.get_or_create(
+        team, created = Team.objects.get_or_create(
             name=data["name"],
             tla=data["tla"],
             short_name=data["shortName"],
@@ -120,7 +135,10 @@ class APIService:
             area=self.create_area(area=data["area"]),
         )
 
-        logger.info("created team(👯‍♀️):%s" % team)
+        if created:
+            logger.info("created team(👯‍♀️):%s" % team)
+        else:
+            logger.info("already exists team(👯‍♀️):%s" % team)
 
         return team
 
@@ -149,14 +167,17 @@ class APIService:
         Create a single coach for a team.
         """
 
-        c, _ = Coach.objects.get_or_create(
+        c, created = Coach.objects.get_or_create(
             name=coach["name"],
             date_of_birth=coach["dateOfBirth"],
             nationality=coach["nationality"],
             team=team,
         )
 
-        logger.info("created coach(👮‍♀️):%s" % c)
+        if created:
+            logger.info("created coach(👮‍♀️):%s" % c)
+        else:
+            logger.info("already exists coach(👮‍♀️):%s" % c)
 
         return c
 
