@@ -8,7 +8,7 @@ class Area(models.Model):
     """
 
     name = models.CharField(max_length=250)
-    code = models.CharField(max_length=10, unique=True)
+    code = models.CharField(max_length=10)
 
     class Meta:
         ordering = ("name",)
@@ -70,7 +70,7 @@ class Player(models.Model):
     A physical sports person who plays the match.
     """
 
-    name = models.CharField(max_length=250, unique=True, null=True)
+    name = models.CharField(max_length=250, null=True)
     position = models.CharField(max_length=200, blank=True, null=True)
     date_of_birth = models.CharField(max_length=20, blank=True, null=True)
     nationality = models.CharField(max_length=200, blank=True, null=True)
@@ -87,7 +87,7 @@ class Coach(models.Model):
     A coach for a team.
     """
 
-    name = models.CharField(max_length=250, blank=True, null=True, unique=True)
+    name = models.CharField(max_length=250, blank=True, null=True)
     date_of_birth = models.CharField(max_length=20, blank=True, null=True)
     nationality = models.CharField(max_length=200, blank=True, null=True)
     team = models.ForeignKey(
