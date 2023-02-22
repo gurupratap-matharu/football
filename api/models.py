@@ -94,5 +94,10 @@ class Coach(models.Model):
         "Team", on_delete=models.CASCADE, related_name="coach", null=True
     )
 
+    class Meta:
+        ordering = ("name",)
+        verbose_name = "Coach"
+        verbose_name_plural = "Coaches"
+
     def __str__(self):
         return f"{self.name}"
