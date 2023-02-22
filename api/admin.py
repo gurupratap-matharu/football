@@ -25,4 +25,4 @@ class PlayerAdmin(admin.ModelAdmin):
 
 @admin.register(Coach)
 class CoachAdmin(admin.ModelAdmin):
-    list_display = ("name", "date_of_birth", "nationality")
+    list_display = ("name", "date_of_birth", "nationality", "team")
