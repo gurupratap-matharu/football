@@ -92,8 +92,9 @@ GET http://localhost:8000/api/v1/teams/ARS/players/
     applications. Having said that, switching from sqlite to postgres in this project would
     need minimal effort. Django by default provides sqlite as a db backend.
 
-    For the purpose of this code challenge using postgres as the backend would demand other users to either spin
-    up the service locally on their system with all the correct configuration or use a docker based alternative which would be
+    For the purpose of this code challenge using postgres as the backend would demand
+    other users to either spin up the service locally on their system with all the 
+    correct configuration or use a docker based alternative which would be
     an overkill for this challenge. So sqlite has been used for its simplicity.
 
 ### 3. How did you design the data modelling? 🖋️
@@ -168,6 +169,26 @@ make ci
     - testing
     - coverage
   
+### 8. Coverage 🎪 
+
+    The CI pipeline itself runs all the tests for the project and generates an html report
+    in the root directory of the project.
+
+### 9. Endpoints design 📍
+
+    Although the challenge asks that endpoints should use the name of a resource to
+    pull up details of an object or show list of resource we make use of codes.
+
+    For eg: http://localhost:8000/api/v1/players/PL/BOA/
+    
+    Here PL - Premier League and BOA - Team TLA code
+
+    Names can have spaces and need to be url encoded which makes them a very difficult
+    candidate in endpoint design. Short codes are unique and they  keep the url short and
+    pretty.
+
+    /api/v1/ allows us to spin up another version of the entire api say at /api/v2/
+    with new endpoints so that current users are not affected.
 
 
 ## Admin Interface 👩‍💼
