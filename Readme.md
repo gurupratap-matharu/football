@@ -6,6 +6,15 @@
 
 Steps to locally setup development after cloning the project.
 
+Create a virtualenv with python 3.10+ and activate it
+
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
+Then start the server with 
+
 ```bash
 make build
 ```
