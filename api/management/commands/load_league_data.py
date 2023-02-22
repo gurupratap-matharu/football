@@ -50,8 +50,7 @@ class Command(BaseCommand):
         Competitions : {Competition.objects.count()}
         Teams        : {Team.objects.count()}
         Players      : {Player.objects.count()}
-        Coach        : {Coach.objects.count()}      
-        """
+        Coach        : {Coach.objects.count()}"""
         )
 
         self.success("All done! 💖💫✅")
