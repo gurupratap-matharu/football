@@ -12,6 +12,7 @@ with fresh data fetched from the API
 
 from django.core.management.base import BaseCommand
 
+from api.models import Coach, Competition, Player, Team
 from api.services import APIService
 
 
@@ -42,14 +43,15 @@ class Command(BaseCommand):
         self.success("League: %s" % league)
         self.success("Fetching data from api 📡...")
 
-        response = APIService(league=league).run()
+        _ = APIService(league=league).run()
 
-        self.stdout.write(
+        self.success(
             f"""
-        Competitions : xxx
-        Teams     : xxx
-        Players     : xxx
+        Competitions : {Competition.objects.count()}
+        Teams        : {Team.objects.count()}
+        Players      : {Player.objects.count()}
+        Coach        : {Coach.objects.count()}      
         """
         )
 
-        self.success("All done! 💖💅🏻💫")
+        self.success("All done! 💖💫✅")
