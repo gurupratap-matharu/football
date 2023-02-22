@@ -24,12 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY", "sEcRetKeyOfFootballproJect")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.getenv("DEBUG", default=0))
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(" ")  # type:ignore
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -188,4 +188,4 @@ LOGGING = {
 
 
 FOOTBALL_API_BASE_URL = "https://api.football-data.org/v4/"
-FOOTBALL_API_TOKEN = os.getenv("FOOTBALL_API_TOKEN")
+FOOTBALL_API_TOKEN = os.getenv("FOOTBALL_API_TOKEN", "3e9d246e26e94c7cb2e23a5be80d50dd")
