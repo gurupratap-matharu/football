@@ -1,4 +1,5 @@
 from django.urls import reverse
+
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -7,7 +8,8 @@ from api.models import Area, Competition, Player, Team
 
 class TeamsAPITests(APITestCase):
     """
-    Suite to test Teams API endpoints."""
+    Suite to test Teams API endpoints.
+    """
 
     @classmethod
     def setUpTestData(cls) -> None:
@@ -56,5 +58,27 @@ class TeamsAPITests(APITestCase):
         self.assertContains(response, "BOU")
         self.assertContains(response, "Bournemouth")
 
+    def test_team_detail_api_view_for_second_team_without_players(self):
+        response = self.client.get(reverse("team_detail", args=["ARS"]), format="json")
+
+        self.assertEqual(Team.objects.count(), 2)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertContains(response, "ARS")
+        self.assertContains(response, "Arsenal")
+
     def test_team_detail_api_view_with_players_shows_the_squad(self):
-        response = self.client.get(reverse(), format="json")
+        url = reverse("team_detail", args=["BOU"]) + "?players=true"
+        response = self.client.get(url, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertContains(response, "BOU")
+        self.assertContains(response, "Bournemouth")
+        self.assertContains(response, "squad")
+        self.assertContains(response, "Ben White")
+        self.assertContains(response, "Aaron Ramsdale")
+
+    def test_team_detail_api_view_with_players_using_alternative_endpoint(self):
+        url = reverse("team_players_detail", args=["BOU"])
+        response = self.client.get(url, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
