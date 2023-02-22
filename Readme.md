@@ -6,7 +6,9 @@
 
 Steps to locally setup development after cloning the project.
 
-`make build`
+```bash
+make build
+```
 
 This single command should
 
@@ -27,7 +29,8 @@ how the data is being pulled.
 
 ## Sample Requests
 
-```
+```bash
+
 ### Import League
 POST http://localhost:8000/api/v1/import-league/AU/
 
@@ -115,6 +118,12 @@ GET http://localhost:8000/api/v1/teams/ARS/players/
     The broad approach is to create mock data for each test with setup and check specific
     test case. Although in production scenario you would add integration or End to end testing.
 
+    To run the entire test suite in one go simply run
+
+```bash
+make test
+```
+
 ### 5. App structure 🏛️
 
     Personally I'm fond of modular approach and clean code with smaller methods and classes
@@ -130,26 +139,43 @@ GET http://localhost:8000/api/v1/teams/ARS/players/
     We use throttling limits to prevent users to send loads of requests rapidly and clog our
     server down. For the sake of challenge this has been set in settings to
 
-    - `100 requests/day` for anonymous users 🦹‍♂️
-    - `1000 requests/day` for authenticated users 👨🏼‍💼
+- `100 requests/day` for anonymous users 🦹‍♂️
+- `1000 requests/day` for authenticated users 👨🏼‍💼
 
     You can test this for example by running this code snippet in your shell
 
-    `make shell`
+```
+make shellplus
+```
 
-    ```python
-    for _ in range(5000):
-        response = requests.get('http://localhost:8000/api/v1/')
-    ```
+```python
+for _ in range(5000):
+    response = requests.get('http://localhost:8000/api/v1/')
+```
+
+### 7. What about CI/CD? ♾️
+
+    You can actually run our continous integration by executing
+
+```bash
+make ci
+```
+
+    This should run
+
+    - formatting pipeline
+    - linting pipeline
+    - testing
+    - coverage
+  
+
 
 ## Admin Interface 👩‍💼
 
-For convenience we have access to an admin interface provided by django.
-
-All data models are hooked up to the admin interface to verify if data has been correctly
+- For convenience we have access to an admin interface provided by django.
+- All data models are hooked up to the admin interface to verify if data has been correctly
 populated in the database.
-
-But to access the admin you would need to create a super user by running the following
+- But to access the admin you would need to create a super user by running the following
 
 ```
 make superuser
