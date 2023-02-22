@@ -2,10 +2,6 @@
 GET http://localhost:8000/api/v1/ HTTP/1.1
 
 
-### Import League
-POST http://localhost:8000/api/v1/import-league/AU/ HTTP/1.1
-
-
 ### Players filtered by league
 GET http://localhost:8000/api/v1/players/PL/ HTTP/1.1
 

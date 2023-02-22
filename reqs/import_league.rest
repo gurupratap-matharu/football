@@ -2,3 +2,30 @@
 POST http://localhost:8000/api/v1/import-league/PL/ HTTP/1.1
 ### Import League
 POST http://localhost:8000/api/v1/import-league/BSA/ HTTP/1.1
+### Import League
+POST http://localhost:8000/api/v1/import-league/ELC/ HTTP/1.1
+
+
+### Import League
+POST http://localhost:8000/api/v1/import-league/CL/ HTTP/1.1
+
+### Import League
+POST http://localhost:8000/api/v1/import-league/FL1/ HTTP/1.1
+
+### Import League
+POST http://localhost:8000/api/v1/import-league/BL1/ HTTP/1.1
+
+### Import League
+POST http://localhost:8000/api/v1/import-league/SA/ HTTP/1.1
+
+### Import League
+POST http://localhost:8000/api/v1/import-league/DED/ HTTP/1.1
+
+### Import League
+POST http://localhost:8000/api/v1/import-league/PPL/ HTTP/1.1
+
+### Import League
+POST http://localhost:8000/api/v1/import-league/CLI/ HTTP/1.1
+
+### Import League
+POST http://localhost:8000/api/v1/import-league/PD/ HTTP/1.1
