@@ -108,6 +108,9 @@ GET http://localhost:8000/api/v1/teams/ARS/players/
 
 ### 3. How did you design the data modelling? 🖋️
 
+![alt text](https://github.com/SantexGroup/santex-be-challenge-gmatharu/tree/main/static/models.png "Data Models")
+
+
     After studying the Football API we understand that the three main resources we are dealing
     with are `Competition (League)`, `Team` and `Player`. My understanding about their relation is
 
